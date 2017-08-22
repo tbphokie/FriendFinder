@@ -1,0 +1,5 @@
+/* Dropdown list color */
+
+.dropdown-content li > a, .dropdown-content li > span {
+    color: pink !important;
+}
