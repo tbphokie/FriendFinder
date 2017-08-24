@@ -1,6 +1,6 @@
 var friendsArray = [
     {
-    "name":"Ahmed",
+    "name":"Ahmed Brown",
     "photo":"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
     "scores":[
         5,
@@ -16,8 +16,8 @@ var friendsArray = [
         ]
     },
     {
-        "name":"Test1",
-        "photo":"http://google.com",
+        "name":"Lisa Jackson",
+        "photo":"http://via.placeholder.com/350x150",
         "scores":[
             1,
             2,
@@ -32,5 +32,6 @@ var friendsArray = [
         ]
     }
 ];
+
 
 module.exports = friendsArray;
