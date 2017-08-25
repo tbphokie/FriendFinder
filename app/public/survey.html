@@ -11,7 +11,7 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
   <!-- Include my customized styles -->
-  <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -168,7 +168,7 @@
     </div>
     <div class="row">
       <div class="input-field col s12 m10 l8">
-        <select id="q10" >
+        <select id="q10">
         <option value="" disabled selected>Choose your option</option>
         <option value="1">1 Agree</option>
         <option value="2">2</option>
@@ -179,33 +179,34 @@
         <label>Question 10 - You think the Star Wars concept is better than Star Trek concept.</label>
       </div>
     </div>
-      <div class="row">
-          <a href="#" class="waves-effect waves-light white btn pink-text submit"><i class="material-icons left">check</i>Submit</a>
-         
-      </div>
-    </div>
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-      <div class="modal-content">
-        <h2>Your Best Match is:</h2>
-          <hr>
-        <div id="matchPicture"></div>
-        <div id="matchName"></div>
-      </div>
-      <div class="modal-footer">
+    <div class="row">
+      <a href="#" class="waves-effect waves-light white btn pink-text submit"><i class="material-icons left">check</i>Submit</a>
 
-        <a href="#modal1" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-      </div>
     </div>
-    <footer class="footer">
-      <div class=c ontainer ">
+  </div>
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h2>Your Best Match is:</h2>
+      <hr>
+      <div id="matchPicture"></div>
+      <div id="matchName"></div>
+    </div>
+    <div class="modal-footer">
+
+      <a href="#modal1" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class=c ontainer ">
       <a href="/api/friendsList " class="pink-text ">API Friends List</a> | 
       <a href="https://github.com/tbphokie/friendfinder " class="pink-text ">Github Repo</a>
     </div>
   </footer>
-</div>
-    <script type="text/javascript ">
-    //<button class="btn waves-effect waves-light pink white-text submit" type="submit" name="action">Submit</button>         
+
+
+  <script type="text/javascript ">
+    //<button class="btn waves-effect waves-light pink white-text submit " type="submit " name="action ">Submit</button>         
       $(document).ready(function () {
         $('select').material_select();
 
@@ -216,103 +217,114 @@
         //now you can open modal from code
         $('#modal1').openModal();
       });
-    </script>
-
-<script type="text/javascript ">
-function validateInput(){
-
-  
-    //Verify inputs here
-    var bValid = true;
-    console.log("checking ... " + $('#name').val());
-    if($('#name').val() === "" || $('#photo').val() ===""){
-      return false;
-    }
-
-    if($('#q1').val() === null || $('#q2').val() === null || $('#q3').val() === null || $('#q4').val() === null || 
-      $('#q5').val() === null || $('#q6').val() === null || $('#q7').val() === null ||  $('#q8').val() === null || 
-      $('#q9').val() === null || $('#q10').val() === null ){
-       return false;
-     }
-
-    
-    return bValid;
-}
-  $(".submit ").on("click ", function(){
-
-    var bValid =  false;
-    bValid = validateInput(); 
-    console.log(bValid);
-    if(bValid === true){
-
-    var newFriend = {
-      name: $('#name').val(),
-      photo: $('#photo').val(),
-      scores: [$('#q1').val(), 
-        $('#q2').val(), 
-        $('#q3').val(), 
-        $('#q4').val(), 
-        $('#q5').val(), 
-        $('#q6').val(), 
-        $('#q7').val(), 
-        $('#q8').val(), 
-        $('#q9').val(),
-        $('#q10').val()
-      ]
-    };
-
-//    console.log($('#name').val());
- //   console.log($('#photo').val());
- //   console.log($('#q1').val());
-    //console.log(newFriend);
-    var currentURL = window.location.origin;
-    //Now create diffArray to save the differences
-    var diffArray = [];
-    var diff = [10];    
-    //Get current friends list data before adding the new one
-    $.get(currentURL + "/api/friendslist", function(data){
-      //console.log(data);
-      for(var i=0;i<data.length;i++){
-        for(var j=0;j<10;j++){
-          diff[j] = Math.abs(newFriend.scores[j] - data[i].scores[j]);
-          //console.log("Friend " + i + ": newFriend score=" + newFriend.scores[j] + " friend score=" + data[i].scores[j] + "Diff=" + diff[j]);
-        }
-        
-        diffArray.push(diff.reduce(function(a, b) { return a + b; }, 0));
-      }
-      //console.log(diffArray);
-
-      var match = 0;
-      for(var i=1;i<diffArray.length;i++){
-        if(diffArray[i] < diffArray[i-1]){
-          match = i;
-        }
-      }
-
-      console.log(" Your match is " + match);
-      console.log(data[match].name);
-      console.log(data[match].photo);
-      console.log(data);
-      $('#matchName').append(data[match].name);
-
-      $('#matchPicture').append("<img src='" + data[match].photo + "' />");
-      $('#modal1').openModal(); 
-    }); 
-      $.post(currentURL + "/api/friendslist", newFriend, function(data){ 
-        //Clear values
-        /*$('#name').val(''); 
-        $('#photo').val(''); 
-        $('select').material_select(); */
-      }); 
-      return true; 
-    }
-    else{
-      alert("All inputs are required, please verify your inputs.");
-    }    
-  });
-
-
   </script>
-</body>
+
+  <script type="text/javascript ">
+
+    //Make sure all inputs have some input
+    function validateInput(){
+
+      //Verify inputs here
+      var bValid = true;
+      //console.log("checking ... " + $('#name').val());
+      if($('#name').val() === " " || $('#photo').val() ===" "){
+        return false;
+      }
+
+      if($('#q1').val() === null || $('#q2').val() === null || $('#q3').val() === null || $('#q4').val() === null || 
+        $('#q5').val() === null || $('#q6').val() === null || $('#q7').val() === null ||  $('#q8').val() === null || 
+        $('#q9').val() === null || $('#q10').val() === null ){
+        return false;
+      }
+
+      return bValid;
+    }
+
+    //submit survey answers
+    $(".submit ").on("click ", function(){
+
+      var bValid =  false;
+      bValid = validateInput(); 
+      //console.log(bValid);
+      if(bValid === true){
+
+        var newFriend = {
+          name: $('#name').val(),
+          photo: $('#photo').val(),
+          scores: [$('#q1').val(), 
+            $('#q2').val(), 
+            $('#q3').val(), 
+            $('#q4').val(), 
+            $('#q5').val(), 
+            $('#q6').val(), 
+            $('#q7').val(), 
+            $('#q8').val(), 
+            $('#q9').val(),
+            $('#q10').val()
+          ]
+        };
+
+    //    console.log($('#name').val());
+    //   console.log($('#photo').val());
+    //   console.log($('#q1').val());
+    //console.log(newFriend);
+        var currentURL = window.location.origin;
+        //Now create diffArray to save the differences
+        var diffArray = [];
+        var diff = [10];    
+/*        //Get current friends list data before adding the new one
+        $.get(currentURL + "/api/friendslist ", function(data){
+          //console.log(data);
+          for(var i=0;i<data.length;i++){
+            for(var j=0;j<10;j++){
+              diff[j] = Math.abs(newFriend.scores[j] - data[i].scores[j]);
+              console.log("Friend " + i + ": newFriend score=" + newFriend.scores[j] + " friend score=" + data[i].scores[j]);
+
+            }
+            
+            diffArray.push(diff.reduce(function(a, b) { return a + b; }, 0));
+          }
+          //console.log(diffArray);
+
+          var match = 0;
+          for(var i=1;i<diffArray.length;i++){
+            if(diffArray[i] < diffArray[i-1]){
+              match = i;
+            }
+          }
+
+
+       });
+ */
+        $.post(currentURL + "/api/friendslist", newFriend, function(data){ 
+          //console.log(" Your match is " + data.name);
+          //console.log(data.name);
+          //console.log(data.photo);
+          //console.log(data);
+
+          if(data === false){
+            $('#matchName').append("You are the first to submit your information! No match at this time.");
+            
+          } else {
+            $('#matchName').append(data.name);
+            $('#matchPicture').append("<img src='" + data.photo + "' />");             
+          }
+          $('#modal1').openModal();
+
+          //Clear values 
+          /*$('#name').val('');
+          $('#photo').val(''); 
+          $('select').material_select(); 
+          */ 
+        }); 
+        return true; 
+      } else{ 
+        alert("All inputs are required, please verify your inputs."); 
+      } 
+    });
+
+
+    </script>
+  </body>
 
 </html>
